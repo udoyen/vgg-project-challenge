@@ -91,5 +91,15 @@ class ActionResource(Resource):
         else:
             return {"status": "Resource not found"}, 404
 
+    def delete(self, project_id=None, action_id=None):
+        if project_id is not None and action_id is not None:
+            action = Action.query.filter_by(id=action_id, project_id=project_id).delete()
+            result = ACTION_SCHEMA.dump(action).data
+            db.session.commit()
+            return {"status": "success"}, 200
+        else:
+            return {"status": "Resource not found"}, 404
+
+
 
 
