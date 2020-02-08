@@ -13,15 +13,13 @@ api.add_resource(Hello, '/Hello')
 # Add api routes for project end points
 # Get
 api.add_resource(ProjectResource, "/projects", "/projects/<int:project_id>")
-# Get by id
-# api.add_resource(ProjectResource, '/projects/<int:project_id>', endpoint = 'get_user')
 # Post
 api.add_resource(ProjectResource, '/projects', endpoint = 'post')
-# Put
+# # Put
 api.add_resource(ProjectResource, '/projects/<int:project_id>', endpoint = 'put')
-# Patch
+# # Patch
 api.add_resource(ProjectResource, '/projects/<int:project_id>', endpoint = 'patch')
-# Delete
+# # Delete
 api.add_resource(ProjectResource, '/projects/<int:project_id>', endpoint = 'delete')
 
 # User api endpoints

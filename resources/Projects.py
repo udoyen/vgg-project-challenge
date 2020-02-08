@@ -58,7 +58,7 @@ class ProjectResource(Resource):
         data, errors = project_schema.load(json_data)
         if errors:
             return errors, 422
-        project = Project.query.filter_by(id=data['id']).first()
+        project = Project.query.filter_by(id=project_id).all()
         if not project:
             project = Project(
                 name=json_data['name'],
@@ -78,8 +78,9 @@ class ProjectResource(Resource):
         result = project_schema.dump(project).data
         return {'status': 'success', 'data': result}, 204
 
-    def patch(self, project_id):
+    def patch(self, project_id=None):
         json_data = request.get_json(force=True)
+
         if not json_data:
             return {'message': 'No input data provided'}, 400
 
@@ -87,34 +88,31 @@ class ProjectResource(Resource):
         data, errors = project_schema.load(json_data)
         if errors:
             return errors, 422
-        project = Project.query.filter_by(id=data['id']).first()
+        project = Project.query.filter_by(id=project_id).all()
         if not project:
             return {'message': 'Project does not exist'}, 400
-        # Set the new values
-        if project.name != data['name']:
-            project.name = data['name']
-        if project.description != data['description']:
-            project.description = data['description']
-        if project.completed != data['completed']:
-            project.completed = data['completed']
-        # commit the changes
-        db.session.commit()
+        if project_id is not None:
+            # Set the new values
+            project = Project(
+                name=json_data['name'],
+                description=json_data['description'],
+                completed=json_data['completed']
+            )
+            # commit the changes
+            db.session.commit()
+            result = project_schema.dump(project).data
+            return {'status': 'success', 'data': result}, 204
+        else:
+            return json_data
 
-        result = project_schema.dump(project).data
-        return {'status': 'success', 'data': result}, 204
+
+    def delete(self, project_id=None):
+        if project_id is not None:
+            project = Project.query.filter_by(id=project_id).delete()
+            db.session.commit()
+            result = project_schema.dump(project).data
+            return {'status': 'success', 'data': result}, 204
+        else:
+            return {'message': 'Project item could not be deleted!'}, 404
 
 
-    def delete(self, project_id):
-        json_data = request.get_json(force=True)
-        if not json_data:
-            return {'message': 'No input data provided'}, 400
-        # Validate and deserialize input
-        data , errors = project_schema.load(json_data)
-        if errors:
-            return errors, 422
-        project = Project.query.filter_by(id=project_id).delete()
-        db.session.commit()
-
-        result = project_schema.dump(project).data
-
-        return {'status': 'success', 'data': result}, 204

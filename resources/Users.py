@@ -8,13 +8,13 @@ user_schema = UserSchema()
 
 class UserResource(Resource):
 
-    def userpost(self):
+    def post(self):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
         # validate and deserialize input
-        data, errors = user_scheme.load(json_data)
-        if error:
+        data, errors = user_schema.load(json_data)
+        if errors:
             return errors, 422
         user = User.query.filter_by(username=data['username']).first()
         if user:
@@ -32,13 +32,13 @@ class UserResource(Resource):
             'data': result
         }, 201
 
-    def get_token(self):
+    def get(self):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
         # validate and deserialize input
-        data, errors = user_scheme.load(json_data)
-        if error:
+        data, errors = user_schema.load(json_data)
+        if errors:
             return errors, 422
         user = User.query.filter_by(username=data['username']).first()
         if user:
@@ -46,8 +46,6 @@ class UserResource(Resource):
         else:
             return {'message': 'Unauthorized'}, 400
 
-    def get(self):
-        return {"message": "Hello from users!"}
-
-    def generate_user_token():
-        return secrets.token_hex(20)
+    def generate_user_token(self):
+        sec = secrets.token_hex(16)
+        return sec
