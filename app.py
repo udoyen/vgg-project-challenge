@@ -12,9 +12,9 @@ api.add_resource(Hello, '/Hello')
 
 # Add api routes for project end points
 # Get
-api.add_resource(ProjectResource, '/projects', endpoint = 'get')
+api.add_resource(ProjectResource, "/projects", "/projects/<int:project_id>")
 # Get by id
-api.add_resource(ProjectResource, '/projects/<int:project_id>', endpoint = 'get_user')
+# api.add_resource(ProjectResource, '/projects/<int:project_id>', endpoint = 'get_user')
 # Post
 api.add_resource(ProjectResource, '/projects', endpoint = 'post')
 # Put
@@ -29,4 +29,4 @@ api.add_resource(ProjectResource, '/projects/<int:project_id>', endpoint = 'dele
 api.add_resource(UserResource, '/users/register', endpoint = 'userpost')
 
 # Auth api endpoint
-api.add_resource(UserResource, '/users/auth', endpoint = 'auth_user')
+api.add_resource(UserResource, '/users/auth', endpoint = 'get_token')

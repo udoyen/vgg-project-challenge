@@ -32,7 +32,7 @@ class UserResource(Resource):
             'data': result
         }, 201
 
-    def auth_user(self):
+    def get_token(self):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400

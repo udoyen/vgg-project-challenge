@@ -9,18 +9,15 @@ class ProjectResource(Resource):
     """
     Get all projects in the database
     """
-    def get(self):
-        projects = Project.query.all()
-        projects = projects_schema.dump(projects).data
-        return {'status': 'success', 'data': projects}, 200
-
-    """
-    Get project by id
-    """
-    def get_user(project_id):
-        project = Project.query.filter_by(id=project_id).first()
-        project = projects_schema.dump(project).data
-        return {'status': 'success', 'data': project}, 200
+    def get(self, project_id=None):
+        if project_id is not None:
+            project = Project.query.filter_by(id = project_id).all()
+            project = projects_schema.dump(project).data
+            return {'status': 'success', 'data': project}, 200
+        else:
+            projects = Project.query.all()
+            projects = projects_schema.dump(projects).data
+            return {'status': 'success', 'data': projects}, 200
 
     def post(self):
         json_data = request.get_json(force=True)
@@ -32,7 +29,7 @@ class ProjectResource(Resource):
         data, errors = project_schema.load(json_data)
         if errors:
             return errors, 422
-        project = Project.query.filter_by(name=data['name']).first()
+        project = Project.query.filter_by(name=data['name']).all()
         # Check if that project already exists
         if project:
             return {'message': 'Project already exists'}, 400
