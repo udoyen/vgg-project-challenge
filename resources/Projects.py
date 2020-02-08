@@ -93,15 +93,13 @@ class ProjectResource(Resource):
             return {'message': 'Project does not exist'}, 400
         if project_id is not None:
             # Set the new values
-            project = Project(
-                name=json_data['name'],
-                description=json_data['description'],
-                completed=json_data['completed']
-            )
             # commit the changes
-            db.session.commit()
+            project.name = data['name']
+            project.description = data['description']
+            project.completed = data['completed']
             result = PROJECT_SCHEMA.dump(project).data
-            return {'status': 'success', 'data': result}, 204
+            db.session.commit()
+            return {'status': 'success', 'data': result}, 200
         else:
             return json_data
 
@@ -109,9 +107,9 @@ class ProjectResource(Resource):
     def delete(self, project_id=None):
         if project_id is not None:
             project = Project.query.filter_by(id=project_id).delete()
-            db.session.commit()
             result = PROJECT_SCHEMA.dump(project).data
-            return {'status': 'success', 'data': result}, 204
+            db.session.commit()
+            return {'status': 'success', 'data': result}, 200
         else:
             return {'message': 'Project item could not be deleted!'}, 404
 
