@@ -17,8 +17,8 @@ class ProjectResource(Resource):
     """
     Get project by id
     """
-    def get_by_id(self, projectId):
-        project = Project.query.filter_by(id=projectId).first()
+    def get_user(project_id):
+        project = Project.query.filter_by(id=project_id).first()
         project = projects_schema.dump(project).data
         return {'status': 'success', 'data': project}, 200
 
@@ -52,7 +52,7 @@ class ProjectResource(Resource):
             "data": result
         }, 201
 
-    def put(self, projectId):
+    def put(self, project_id):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -81,7 +81,7 @@ class ProjectResource(Resource):
         result = project_schema.dump(project).data
         return {'status': 'success', 'data': result}, 204
 
-    def patch(self, projectId):
+    def patch(self, project_id):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -107,7 +107,7 @@ class ProjectResource(Resource):
         return {'status': 'success', 'data': result}, 204
 
 
-    def delete(self, projectId):
+    def delete(self, project_id):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
@@ -115,7 +115,7 @@ class ProjectResource(Resource):
         data , errors = project_schema.load(json_data)
         if errors:
             return errors, 422
-        project = Project.query.filter_by(id=data['id']).delete()
+        project = Project.query.filter_by(id=project_id).delete()
         db.session.commit()
 
         result = project_schema.dump(project).data
