@@ -58,7 +58,7 @@ class ProjectResource(Resource):
         data, errors = PROJECT_SCHEMA.load(json_data)
         if errors:
             return errors, 422
-        project = Project.query.filter_by(id=project_id).all()
+        project = Project.query.filter_by(id=project_id).first()
         if not project:
             project = Project(
                 name=json_data['name'],
@@ -88,7 +88,7 @@ class ProjectResource(Resource):
         data, errors = PROJECT_SCHEMA.load(json_data)
         if errors:
             return errors, 422
-        project = Project.query.filter_by(id=project_id).all()
+        project = Project.query.filter_by(id=project_id).first()
         if not project:
             return {'message': 'Project does not exist'}, 400
         if project_id is not None:
