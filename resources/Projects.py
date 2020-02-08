@@ -1,9 +1,9 @@
 from flask import request
 from flask_restful import Resource
-from  Model import db, Project, ProjectSchema
+from model import db, Project, ProjectSchema
 
-projects_schema = ProjectSchema(many=True)
-project_schema = ProjectSchema()
+PROJECTS_SCHEMA = ProjectSchema(many=True)
+PROJECT_SCHEMA = ProjectSchema()
 
 class ProjectResource(Resource):
     """
@@ -12,11 +12,11 @@ class ProjectResource(Resource):
     def get(self, project_id=None):
         if project_id is not None:
             project = Project.query.filter_by(id = project_id).all()
-            project = projects_schema.dump(project).data
+            project = PROJECTS_SCHEMA.dump(project).data
             return {'status': 'success', 'data': project}, 200
         else:
             projects = Project.query.all()
-            projects = projects_schema.dump(projects).data
+            projects = PROJECTS_SCHEMA.dump(projects).data
             return {'status': 'success', 'data': projects}, 200
 
     def post(self):
@@ -26,7 +26,7 @@ class ProjectResource(Resource):
         if not json_data:
             return {'message': 'No inpute data provided'}, 400
         # Validate  and deserialize input
-        data, errors = project_schema.load(json_data)
+        data, errors = PROJECT_SCHEMA.load(json_data)
         if errors:
             return errors, 422
         project = Project.query.filter_by(name=data['name']).all()
@@ -43,7 +43,7 @@ class ProjectResource(Resource):
         db.session.add(project)
         db.session.commit()
 
-        result = project_schema.dump(project).data
+        result = PROJECT_SCHEMA.dump(project).data
         return {
             "status": 'success',
             "data": result
@@ -55,7 +55,7 @@ class ProjectResource(Resource):
             return {'message': 'No input data provided'}, 400
 
         # Validate and deserialize input
-        data, errors = project_schema.load(json_data)
+        data, errors = PROJECT_SCHEMA.load(json_data)
         if errors:
             return errors, 422
         project = Project.query.filter_by(id=project_id).all()
@@ -75,7 +75,7 @@ class ProjectResource(Resource):
         # commit the changes
         db.session.commit()
 
-        result = project_schema.dump(project).data
+        result = PROJECT_SCHEMA.dump(project).data
         return {'status': 'success', 'data': result}, 204
 
     def patch(self, project_id=None):
@@ -85,7 +85,7 @@ class ProjectResource(Resource):
             return {'message': 'No input data provided'}, 400
 
         # Validate and deserialize input
-        data, errors = project_schema.load(json_data)
+        data, errors = PROJECT_SCHEMA.load(json_data)
         if errors:
             return errors, 422
         project = Project.query.filter_by(id=project_id).all()
@@ -100,7 +100,7 @@ class ProjectResource(Resource):
             )
             # commit the changes
             db.session.commit()
-            result = project_schema.dump(project).data
+            result = PROJECT_SCHEMA.dump(project).data
             return {'status': 'success', 'data': result}, 204
         else:
             return json_data
@@ -110,7 +110,7 @@ class ProjectResource(Resource):
         if project_id is not None:
             project = Project.query.filter_by(id=project_id).delete()
             db.session.commit()
-            result = project_schema.dump(project).data
+            result = PROJECT_SCHEMA.dump(project).data
             return {'status': 'success', 'data': result}, 204
         else:
             return {'message': 'Project item could not be deleted!'}, 404

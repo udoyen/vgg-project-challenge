@@ -1,10 +1,10 @@
 from flask import request
 from flask_restful import Resource
-from Model import db, User, UserSchema
+from model import db, User, UserSchema
 import secrets
 
-users_schema = UserSchema(many=True)
-user_schema = UserSchema()
+USERS_SCHEMA = UserSchema(many=True)
+USER_SCHEMA = UserSchema()
 
 class UserResource(Resource):
 
@@ -13,7 +13,7 @@ class UserResource(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
         # validate and deserialize input
-        data, errors = user_schema.load(json_data)
+        data, errors = USER_SCHEMA.load(json_data)
         if errors:
             return errors, 422
         user = User.query.filter_by(username=data['username']).first()
@@ -26,7 +26,7 @@ class UserResource(Resource):
         db.session.add(user)
         db.session.commit()
 
-        result = user_schema.dump(user).data
+        result = USER_SCHEMA.dump(user).data
         return {
             'status': 'success',
             'data': result
@@ -37,7 +37,7 @@ class UserResource(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
         # validate and deserialize input
-        data, errors = user_schema.load(json_data)
+        data, errors = USER_SCHEMA.load(json_data)
         if errors:
             return errors, 422
         user = User.query.filter_by(username=data['username']).first()
