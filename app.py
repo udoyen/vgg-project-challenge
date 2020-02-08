@@ -5,8 +5,8 @@ from resources.Users import UserResource
 from resources.Projects import ProjectResource
 from resources.Actions import ActionResource
 
-api_bp = Blueprint('api', __name__)
-api = Api(api_bp)
+API_BP = Blueprint('api', __name__)
+api = Api(API_BP)
 
 api.add_resource(Hello, '/Hello')
 
@@ -28,3 +28,6 @@ api.add_resource(UserResource, '/users/register', endpoint = 'userpost')
 
 # Auth api endpoint
 api.add_resource(UserResource, '/users/auth', endpoint = 'get_token')
+
+# Action endpoint
+api.add_resource(ActionResource, '/projects/<int:project_id>/actions', endpoint = 'actionpost')

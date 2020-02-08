@@ -5,8 +5,8 @@ def create_app(config_filename):
     app = Flask(__name__)
     app.config.from_object(config_filename)
 
-    from app import api_bp
-    app.register_blueprint(api_bp, url_prefix='/api')
+    from app import API_BP
+    app.register_blueprint(API_BP, url_prefix='/api')
 
     from model import db
     db.init_app(app)
