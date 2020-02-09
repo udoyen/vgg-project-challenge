@@ -53,13 +53,12 @@ class ProjectResource(Resource):
                     return {"status": "success", "data": projects}, 200
                 else:
                     return {"status": "Resource not found"}, 404
-
-            elif project_id == None:
-                projects = Project.query.all()
-                projects = PROJECTS_SCHEMA.dump(projects).data
-                return {'status': 'success', 'data': projects}, 200
-            else:
-                return {"status": "Resource not found"}, 404
+        elif project_id == None:
+            projects = Project.query.all()
+            projects = PROJECTS_SCHEMA.dump(projects).data
+            return {'status': 'success', 'data': projects}, 200
+        else:
+            return {"status": "Resource not found"}, 404
 
     def post(self):
         json_data = request.get_json(force=True)
