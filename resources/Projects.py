@@ -1,6 +1,8 @@
-from flask import request
+from flask import  request
 from flask_restful import Resource
 from model import db, Project, ProjectSchema
+from sqlalchemy_searchable import search
+
 
 PROJECTS_SCHEMA = ProjectSchema(many=True)
 PROJECT_SCHEMA = ProjectSchema()
@@ -16,7 +18,7 @@ class ProjectResource(Resource):
             return {'status': 'success', 'data': project}, 200
         elif request.args.get('search') is not None:
             term = request.args.get('search')
-            projects = Project.query.filter((Project.name.ilike(term)) | (Project.description.ilike(term))).all()
+            projects = Project.query.filter((Project.name.ilike('%' + term + '%')) | (Project.description.ilike('%' + term + '%'))).all()
             if projects:
                 projects = PROJECTS_SCHEMA.dump(projects).data
                 return {"status": 'success', "data": projects}, 200
