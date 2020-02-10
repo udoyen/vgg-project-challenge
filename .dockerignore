@@ -1,6 +1,0 @@
-pattern
-.git
-.cache
-*.md
-.vscode
-env
