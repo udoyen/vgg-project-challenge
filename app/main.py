@@ -10,6 +10,8 @@ def create_app(config_filename):
     from model import db
     db.init_app(app)
 
+    
+
     return app
 
 if __name__ == "__main__":

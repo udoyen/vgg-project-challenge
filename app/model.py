@@ -22,7 +22,7 @@ class Project(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(250), nullable=False)
     completed = db.Column(db.Boolean, nullable=True)
-    user_stories = db.Column(db.String, nullable=True)
+    user_stories = db.Column(db.String, nullable=True, server_default="")
 
     def __init__(self, name, description, completed, user_stories):
         self.name = name

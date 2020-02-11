@@ -14,9 +14,9 @@ api.add_resource(Hello, '/Hello', endpoint='get')
 # Get
 api.add_resource(ProjectResource, "/projects", "/projects/<int:project_id>", "/projects?search=<string:term>", "/projects?offset=<int:offsetValue>&limit=<int:limitValue>")
 # Post
-api.add_resource(ProjectResource, '/projects', '/projects/<int:projectid>/upload', endpoint = 'post')
+api.add_resource(ProjectResource, '/projects', endpoint = 'post')
 # # Put
-api.add_resource(ProjectResource, '/projects/<int:project_id>', endpoint = 'put')
+api.add_resource(ProjectResource, '/projects/<int:project_id>', '/projects/<int:project_id>/upload', endpoint = 'put')
 # # Patch
 api.add_resource(ProjectResource, '/projects/<int:project_id>', endpoint = 'patch')
 # # Delete
