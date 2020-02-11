@@ -15,7 +15,7 @@ Jinja2==2.11.1
 lazy-object-proxy==1.4.3
 Mako==1.1.1
 MarkupSafe==1.1.1
-marshmallow==2.14.0
+marshmallow==2.15.1
 marshmallow-sqlalchemy==0.13.2
 mccabe==0.6.1
 pkg-resources==0.0.0
