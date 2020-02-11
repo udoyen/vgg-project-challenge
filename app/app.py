@@ -8,7 +8,7 @@ from resources.Actions import ActionResource
 API_BP = Blueprint('api', __name__)
 api = Api(API_BP)
 
-api.add_resource(Hello, '/Hello')
+api.add_resource(Hello, '/Hello', endpoint='get')
 
 # Add api routes for project end points
 # Get
