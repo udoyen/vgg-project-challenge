@@ -16,7 +16,7 @@ api.add_resource(ProjectResource, "/projects", "/projects/<int:project_id>", "/p
 # Post
 api.add_resource(ProjectResource, '/projects', endpoint = 'post')
 # # Put
-api.add_resource(ProjectResource, '/projects/<int:project_id>', endpoint = 'put')
+api.add_resource(ProjectResource, '/projects/<int:project_id>', '/projects/<int:project_id>/upload', endpoint = 'put')
 # # Patch
 api.add_resource(ProjectResource, '/projects/<int:project_id>', endpoint = 'patch')
 # # Delete
