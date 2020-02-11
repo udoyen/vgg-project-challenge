@@ -22,11 +22,13 @@ class Project(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(250), nullable=False)
     completed = db.Column(db.Boolean, nullable=True)
+    user_stories = db.Column(db.String, nullable=True)
 
-    def __init__(self, name, description, completed):
+    def __init__(self, name, description, completed, user_stories):
         self.name = name
         self.description = description
         self.completed = completed
+        self.user_stories = user_stories
 
 class Action(db.Model):
     __tablename__ = 'actions'
@@ -51,6 +53,7 @@ class ProjectSchema(ma.Schema):
     name = fields.String(required=True)
     description = fields.String(required=False)
     completed = fields.Boolean(required=True)
+    user_stories = fields.String(required=False)
 
 class ActionSchema(ma.Schema):
     id = fields.Integer()

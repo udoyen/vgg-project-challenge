@@ -60,7 +60,7 @@ class ProjectResource(Resource):
         else:
             return {"status": "Resource not found"}, 404
 
-    def post(self):
+    def post(self, projecid=None):
         json_data = request.get_json(force=True)
         # Return a 400 error if no input data
         # was provided
